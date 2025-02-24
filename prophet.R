@@ -7,10 +7,13 @@ suppressPackageStartupMessages({
   library(shinyjs)
   library(writexl)
   library(ggplot2)
+  library(dplyr)     # Para manipulación de datos
+  library(lubridate) # Para manejo de fechas
+  library(data.table)# Para manipulación eficiente de datos
 })
 
 options(shiny.launch.browser = function(url) {
-  browseURL(url)  # Abre la URL en el navegador predeterminado
+  # browseURL(url)  # Abre la URL en el navegador predeterminado
 }) 
 # Interfaz de usuario (UI)
 ui <- fluidPage(
@@ -295,12 +298,12 @@ server <- function(input, output, session) {
         
         output$historical_plot <- renderPlotly({
           plot_ly() %>%
-            add_lines(x = df_plot$ds, y = df_plot$y, name = 'Datos Históricos', line = list(color = 'blue')) %>%
+            add_lines(x = df_plot$ds, y = df_plot$y, name = 'Datos Históricos', line = list(color = 'blue')) %>% 
             layout(title = "Serie de Tiempo Histórica", xaxis = list(title = "Fecha"), yaxis = list(title = "Valor"))
         })
       } else {
         output$historical_plot <- renderPlotly({
-          plotly_empty(type = "scatter", mode = "lines") %>%
+          plotly_empty(type = "scatter", mode = "lines") %>% 
             layout(title = "Serie de Tiempo Histórica", xaxis = list(title = "Fecha"), yaxis = list(title = "Valor"))
         })
       }
@@ -356,17 +359,17 @@ server <- function(input, output, session) {
         # Gráfico de comparación del pronóstico
         output$forecast_comparison_plot <- renderPlotly({
           future_forecasts <- forecast[forecast$ds > max(df$ds), ]
-          plot_ly() %>%
-            add_lines(x = df$ds, y = df$y, name = 'Datos Históricos', line = list(color = 'blue')) %>%
-            add_lines(x = future_forecasts$ds, y = future_forecasts$yhat, name = 'Pronóstico Futuro', line = list(color = 'red')) %>%
+          plot_ly() %>% 
+            add_lines(x = df$ds, y = df$y, name = 'Datos Históricos', line = list(color = 'blue')) %>% 
+            add_lines(x = future_forecasts$ds, y = future_forecasts$yhat, name = 'Pronóstico Futuro', line = list(color = 'red')) %>% 
             layout(title = "Comparación del Pronóstico", xaxis = list(title = "Fecha"), yaxis = list(title = "Valor"))
         })
         
         # Gráfico del pronóstico futuro
         output$forecast_future_plot <- renderPlotly({
           future_forecasts <- forecast[forecast$ds > max(df$ds), ]
-          plot_ly() %>%
-            add_lines(x = future_forecasts$ds, y = future_forecasts$yhat, name = 'Pronóstico Futuro', line = list(color = 'green')) %>%
+          plot_ly() %>% 
+            add_lines(x = future_forecasts$ds, y = future_forecasts$yhat, name = 'Pronóstico Futuro', line = list(color = 'green')) %>% 
             layout(title = "Pronóstico Futuro", xaxis = list(title = "Fecha"), yaxis = list(title = "Valor"))
         })
         
@@ -441,7 +444,7 @@ server <- function(input, output, session) {
             scale_color_manual(values = c("Real" = "blue", "Predicho" = "red")) +
             theme_minimal()
           
-          ggplotly(p) %>%
+          ggplotly(p) %>% 
             layout(legend = list(title = list(text = "Serie")))
         })
         
@@ -505,5 +508,5 @@ server <- function(input, output, session) {
   })
 }
 
-# Ejecutar la aplicación Shiny
-shinyApp(ui = ui, server = server)
+# Ejecutar la aplicación Shiny en un puerto específico
+shinyApp(ui = ui, server = server, options = list(port = 1239))

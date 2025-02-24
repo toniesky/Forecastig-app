@@ -1,16 +1,20 @@
-library(shiny)
-library(readxl)
-library(ggplot2)
-library(TTR)
-library(tseries)  # Para adf.test
-library(shinyjs)
-library(plotly)
+suppressPackageStartupMessages({
+  library(shiny)
+  library(readxl)
+  library(ggplot2)
+  library(TTR)       # Para SMA y WMA
+  library(tseries)   # Para adf.test
+  library(shinyjs)
+  library(plotly)
+  library(dplyr)     # Para manipulación de datos
+  library(stats)     # Para funciones estadísticas básicas
+})
 
 # Obtener el nombre de usuario del sistema
 username <- Sys.info()[["user"]]
 
 options(shiny.launch.browser = function(url) {
-  browseURL(url)  # Abre la URL en el navegador predeterminado
+  # browseURL(url)  # Abre la URL en el navegador predeterminado
 })
 
 ui <- fluidPage(
@@ -188,7 +192,7 @@ server <- function(input, output, session) {
   })
   
   # Update sheet dropdown based on file input
-  output$sheet_ui <- renderUI({
+  output.sheet_ui <- renderUI({
     req(sheet_names())
     selectInput("sheet", "Seleccionar Hoja", choices = sheet_names())
   })
@@ -289,4 +293,5 @@ server <- function(input, output, session) {
   })
 }
 
-shinyApp(ui, server)
+# Ejecutar la aplicación Shiny en un puerto específico
+shinyApp(ui = ui, server = server, options = list(port = 1236))
