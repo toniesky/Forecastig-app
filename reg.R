@@ -15,7 +15,7 @@ suppressPackageStartupMessages({
 })
 
 options(shiny.launch.browser = function(url) {
-  # browseURL(url)  # Abre la URL en el navegador predeterminado
+   browseURL(url)  # Abre la URL en el navegador predeterminado
 })
 
 # Interfaz de usuario (UI)
@@ -676,4 +676,4 @@ server <- function(input, output, session) {
   )
 }
 # Ejecutar la aplicación Shiny en un puerto específico
-shinyApp(ui = ui, server = server, options = list(port = 1238))
+shinyApp(ui = ui, server = server)
