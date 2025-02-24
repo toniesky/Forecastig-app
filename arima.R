@@ -1,22 +1,25 @@
-# Carga de librerías
+## Carga de funciones específicas de las librerías
 suppressPackageStartupMessages({
   library(shiny)
   library(readxl)
-  library(forecast)
-  library(tseries)
   library(shinyjs)
   library(ggplot2)
   library(plotly)
-  library(writexl)  
+  library(writexl)
+  library(forecast)  # Necesario para forecast::Arima
+  library(tseries)   # Necesario para adf.test
+  library(car)       # Necesario para algunas pruebas diagnósticas
+  library(lmtest)    # Para pruebas de diagnóstico
+  library(stats)     # Para funciones estadísticas básicas
+  library(dplyr)     # Para manipulación de datos
 })
 
 options(shiny.launch.browser = function(url) {
-  browseURL(url)  # Abre la URL en el navegador predeterminado
+  # browseURL(url)  # Abre la URL en el navegador predeterminado
 })
 
 # Interfaz de usuario (UI)
 ui <- fluidPage(
-  
   useShinyjs(),  # Para habilitar o deshabilitar elementos
   tags$head(
     tags$style(HTML("
@@ -692,7 +695,6 @@ server <- function(input, output, session) {
     })
   })
 }
-
 # Ejecutar la aplicación Shiny
 shinyApp(ui = ui, server = server)
 
