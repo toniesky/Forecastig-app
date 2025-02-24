@@ -15,6 +15,15 @@ options(shiny.launch.browser = function(url) {
   browseURL(url)
 })
 
+# Cargar las librerías necesarias
+library(shiny)
+library(forecast)
+library(readxl)
+library(shinyjs)
+library(ggplot2)
+library(plotly)
+library(writexl)
+
 # Interfaz de usuario (UI)
 ui <- fluidPage(
   useShinyjs(),
@@ -425,6 +434,7 @@ server <- function(input, output, session) {
     console_history()
   })
 }
+
 
 # Ejecutar la aplicación
 shinyApp(ui = ui, server = server)
