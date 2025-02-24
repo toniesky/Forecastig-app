@@ -1,20 +1,19 @@
 # Cargar las librerías necesarias
-library(shiny)
-library(forecast)
-library(readxl)
-library(tseries)    # Para adf.test
-library(shinyjs)
-library(ggplot2)
-library(plotly)
-library(writexl)
+suppressPackageStartupMessages({
+  library(shiny)
+  library(forecast)  # Para funciones de suavización exponencial
+  library(readxl)
+  library(tseries)   # Para adf.test
+  library(shinyjs)
+  library(ggplot2)
+  library(plotly)
+  library(writexl)
+  library(dplyr)     # Para manipulación de datos
+  library(stats)     # Para funciones estadísticas básicas
+})
 
 # Obtener el nombre de usuario del sistema
 username <- Sys.info()[["user"]]
-
-# Configuración para abrir en el navegador predeterminado
-options(shiny.launch.browser = function(url) {
-  browseURL(url)  # Abre la URL en el navegador predeterminado
-})
 
 # Interfaz de usuario (UI)
 ui <- fluidPage(
