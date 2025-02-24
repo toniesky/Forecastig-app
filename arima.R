@@ -15,7 +15,7 @@ suppressPackageStartupMessages({
 })
 
 options(shiny.launch.browser = function(url) {
-  # browseURL(url)  # Abre la URL en el navegador predeterminado
+   browseURL(url)  # Abre la URL en el navegador predeterminado
 })
 
 # Interfaz de usuario (UI)
